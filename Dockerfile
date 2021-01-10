@@ -7,8 +7,9 @@ WORKDIR /app
 
 # Install app dependencies
 COPY package*.json ./
+COPY tsconfig*.json ./
 
-RUN npm ci --only=production
+RUN npm install
 
 # Bundle app source
 COPY ./src ./src

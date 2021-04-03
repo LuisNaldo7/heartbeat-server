@@ -9,12 +9,5 @@
         "user": "user",
         "pw": "pw",
         "database": "db"
-    },
-    "mail": {
-        "host": "host",
-        "from": "from",
-        "pw": "pw",
-        "require_tls": true,
-        "to": "to" 
-    } 
+    }
 }

@@ -1,14 +1,13 @@
 import { Controller, Get, Param } from '@nestjs/common';
 const mysql = require('mysql');
-const config = require(process.env.CONFIG_FILE);
 
-const dbCon = mysql.createConnection({
-  host: config.db.host,
-  port: config.db.port,
-  ssl: config.db.ssl,
-  user: config.db.user,
-  password: config.db.pw,
-  database: config.db.database,
+let con = mysql.createConnection({
+  host: process.env.HEARTBEAT_DB_HOST,
+  port: parseInt(process.env.HEARTBEAT_DB_PORT || '3306'),
+  ssl: JSON.parse(process.env.HEARTBEAT_DB_SSL || 'true'),
+  user: process.env.HEARTBEAT_DB_USER,
+  password: process.env.HEARTBEAT_DB_PASSWORD,
+  database: process.env.HEARTBEAT_DB_DATABASE,
 });
 
 function updateDevice(id: string, type: string) {
@@ -29,7 +28,7 @@ function updateDevice(id: string, type: string) {
     id +
     "';";
 
-  dbCon.query(sql, (err, result) => {
+  con.query(sql, (err, result) => {
     if (err) {
       console.log(err);
     }

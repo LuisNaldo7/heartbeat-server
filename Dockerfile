@@ -1,6 +1,11 @@
 FROM node:lts
 
-ENV CONFIG_FILE="/config/config.json"
+ENV HEARTBEAT_DB_HOST='localhost'
+ENV HEARTBEAT_DB_PORT=3306
+ENV HEARTBEAT_DB_SSL=true
+ENV HEARTBEAT_DB_USER='heartbeat'
+ENV HEARTBEAT_DB_PASSWORD=''
+ENV HEARTBEAT_DB_DATABASE='heartbeat'
 
 # Create app directory
 WORKDIR /app
@@ -14,5 +19,8 @@ RUN npm install
 # Bundle app source
 COPY ./src ./src
 
+# Build app
+RUN npm run build
+
 EXPOSE 3000
-CMD [ "npm", "start"]
+CMD [ "node", "dist/main"]

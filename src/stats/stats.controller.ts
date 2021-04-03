@@ -1,15 +1,14 @@
 import { Controller, Get } from '@nestjs/common';
 const path = require('path');
 const mysql = require('mysql');
-const config = require(process.env.CONFIG_FILE);
 
-const dbCon = mysql.createConnection({
-  host: config.db.host,
-  port: config.db.port,
-  ssl: config.db.ssl,
-  user: config.db.user,
-  password: config.db.pw,
-  database: config.db.database,
+let con = mysql.createConnection({
+  host: process.env.HEARTBEAT_DB_HOST,
+  port: parseInt(process.env.HEARTBEAT_DB_PORT || '3306'),
+  ssl: JSON.parse(process.env.HEARTBEAT_DB_SSL || 'true'),
+  user: process.env.HEARTBEAT_DB_USER,
+  password: process.env.HEARTBEAT_DB_PASSWORD,
+  database: process.env.HEARTBEAT_DB_DATABASE,
 });
 
 @Controller('stats')
@@ -17,7 +16,7 @@ export class StatsController {
   @Get('devices')
   async getDevicesx(): Promise<string> {
     return new Promise((resolve, reject) => {
-      dbCon.query('SELECT * FROM devices', function (err, result) {
+      con.query('SELECT * FROM devices', function (err, result) {
         if (err) {
           reject(err);
         }

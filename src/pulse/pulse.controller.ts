@@ -11,14 +11,13 @@ let con = mysql.createConnection({
 });
 
 function updateDevice(id: string, type: string) {
-  let date = new Date().toISOString();
-  date = date.replace('Z', '');
+  let tsUnix = new Date(Date.now()).getTime() / 1000;
 
   const sql =
     'UPDATE devices ' +
     'SET ' +
     "last_seen = '" +
-    date +
+    tsUnix +
     "', " +
     "type = '" +
     type +

@@ -10,7 +10,8 @@ let con = mysql.createConnection({
   database: process.env.HEARTBEAT_DB_DATABASE,
 });
 
-function updateDevice(id: string, type: string) {
+function updateDevice(guid: string, type: string) {
+  const MAIL_SENT: Boolean = false;
   let tsUnix = new Date(Date.now()).getTime() / 1000;
 
   const sql =
@@ -21,10 +22,13 @@ function updateDevice(id: string, type: string) {
     "', " +
     "type = '" +
     type +
-    "' " +
+    "', " +
+    "mail_sent = " +
+    MAIL_SENT +
+    " " +
     'WHERE ' +
     "guid = '" +
-    id +
+    guid +
     "';";
 
   con.query(sql, (err, result) => {
@@ -36,18 +40,18 @@ function updateDevice(id: string, type: string) {
 
 @Controller('pulse')
 export class PulseController {
-  @Get('beat/:id')
-  async beat(@Param('id') id) {
-    updateDevice(id, 'BEAT');
+  @Get('beat/:guid')
+  async beat(@Param('guid') guid) {
+    updateDevice(guid, 'BEAT');
   }
 
-  @Get('boot/:id')
-  async rise(@Param('id') id) {
-    updateDevice(id, 'BOOT');
+  @Get('boot/:guid')
+  async rise(@Param('guid') guid) {
+    updateDevice(guid, 'BOOT');
   }
 
-  @Get('shutdown/:id')
-  async die(@Param('id') id) {
-    updateDevice(id, 'SHUTDOWN');
+  @Get('shutdown/:guid')
+  async die(@Param('guid') guid) {
+    updateDevice(guid, 'SHUTDOWN');
   }
 }

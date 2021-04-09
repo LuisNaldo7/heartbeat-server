@@ -1,41 +1,48 @@
 import { Controller, Get, Param } from '@nestjs/common';
-const mysql = require('mysql');
+import * as mysql from 'mysql';
+import { getConnection } from '../sql';
 
-let con = mysql.createConnection({
-  host: process.env.HEARTBEAT_DB_HOST,
-  port: parseInt(process.env.HEARTBEAT_DB_PORT || '3306'),
-  ssl: JSON.parse(process.env.HEARTBEAT_DB_SSL || 'true'),
-  user: process.env.HEARTBEAT_DB_USER,
-  password: process.env.HEARTBEAT_DB_PASSWORD,
-  database: process.env.HEARTBEAT_DB_DATABASE,
-});
+let con: mysql.Connection;
 
 function updateDevice(guid: string, type: string) {
   const MAIL_SENT: Boolean = false;
   let tsUnix = new Date(Date.now()).getTime() / 1000;
 
-  const sql =
-    'UPDATE devices ' +
-    'SET ' +
-    "last_seen = '" +
-    tsUnix +
-    "', " +
-    "type = '" +
-    type +
-    "', " +
-    "mail_sent = " +
-    MAIL_SENT +
-    " " +
-    'WHERE ' +
-    "guid = '" +
-    guid +
-    "';";
-
-  con.query(sql, (err, result) => {
-    if (err) {
-      console.log(err);
+  try {
+    if (
+      con == null ||
+      con.state == 'disconnected' ||
+      con.state == 'protocol_error'
+    ) {
+      con = getConnection();
     }
-  });
+
+    const sql =
+      'UPDATE devices ' +
+      'SET ' +
+      "last_seen = '" +
+      tsUnix +
+      "', " +
+      "type = '" +
+      type +
+      "', " +
+      'mail_sent = ' +
+      MAIL_SENT +
+      ' ' +
+      'WHERE ' +
+      "guid = '" +
+      guid +
+      "';";
+
+    con.query(sql, (err, result) => {
+      if (err) {
+        console.log(3);
+        console.error(err);
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 @Controller('pulse')

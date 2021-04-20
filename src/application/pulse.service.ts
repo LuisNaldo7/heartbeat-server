@@ -1,6 +1,8 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { PulseServiceInterface } from './pulse.service.interface';
 import * as mysql from 'mysql';
 import { getConnection } from '../sql';
+require('dotenv').config();
 
 let con: mysql.Connection;
 
@@ -45,20 +47,17 @@ function updateDevice(guid: string, type: string) {
   }
 }
 
-@Controller('pulse')
-export class PulseController {
-  @Get('beat/:guid')
-  async beat(@Param('guid') guid) {
+@Injectable()
+export class PulseService implements PulseServiceInterface {
+  beat(guid: string): void {
     updateDevice(guid, 'BEAT');
   }
 
-  @Get('boot/:guid')
-  async rise(@Param('guid') guid) {
+  rise(guid: string): void {
     updateDevice(guid, 'BOOT');
   }
 
-  @Get('shutdown/:guid')
-  async die(@Param('guid') guid) {
+  die(guid: string): void {
     updateDevice(guid, 'SHUTDOWN');
   }
 }

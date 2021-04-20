@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PulseController } from './pulse.controller';
+import { PulseController } from '../../../src/controller/pulse.controller';
 
 describe('PulseController', () => {
   let controller: PulseController;

@@ -1,7 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
-const path = require('path');
+import { Injectable } from '@nestjs/common';
+import { StatsServiceInterface } from './stats.service.interface';
 import * as mysql from 'mysql';
 import { getConnection } from '../sql';
+require('dotenv').config();
 
 let con: mysql.Connection;
 
@@ -25,12 +26,13 @@ function getDevices(): Promise<string> {
     });
   } catch (err) {
     console.error(err);
+    throw err;
   }
 }
-@Controller('stats')
-export class StatsController {
-  @Get('devices')
-  async devices(): Promise<string> {
+
+@Injectable()
+export class StatsService implements StatsServiceInterface {
+  async getDevices(): Promise<string> {
     return getDevices();
   }
 }

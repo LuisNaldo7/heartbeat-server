@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { StatsServiceInterface } from './stats.service.interface';
 import * as mysql from 'mysql';
 import { getConnection } from '../sql';
-require('dotenv').config();
 
 let con: mysql.Connection;
 

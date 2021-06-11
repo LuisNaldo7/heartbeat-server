@@ -1,7 +1,7 @@
 import * as mysql from 'mysql';
 
 export function getConnection(): mysql.Connection {
-  let con = mysql.createConnection({
+  const con = mysql.createConnection({
     host: process.env.HEARTBEAT_DB_HOST,
     port: parseInt(process.env.HEARTBEAT_DB_PORT || '3306'),
     ssl: JSON.parse(process.env.HEARTBEAT_DB_SSL || 'true'),

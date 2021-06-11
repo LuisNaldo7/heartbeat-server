@@ -2,13 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { PulseServiceInterface } from './pulse.service.interface';
 import * as mysql from 'mysql';
 import { getConnection } from '../sql';
-require('dotenv').config();
 
 let con: mysql.Connection;
 
 function updateDevice(guid: string, type: string) {
-  const MAIL_SENT: Boolean = false;
-  let tsUnix = new Date(Date.now()).getTime() / 1000;
+  const MAIL_SENT = false;
+  const tsUnix = new Date(Date.now()).getTime() / 1000;
 
   try {
     if (
@@ -38,7 +37,6 @@ function updateDevice(guid: string, type: string) {
 
     con.query(sql, (err, result) => {
       if (err) {
-        console.log(3);
         console.error(err);
       }
     });

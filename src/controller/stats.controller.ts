@@ -15,8 +15,8 @@ export class StatsController {
       const devices = await this.statsService.getDevices();
       return { devices };
     } catch (error) {
-      return { 
-        devices: error.toString() 
+      return {
+        devices: error.toString(),
       };
     }
   }

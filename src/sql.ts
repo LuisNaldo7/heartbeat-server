@@ -4,7 +4,7 @@ import { fallback } from './fallback-values';
 export function getConnection(): mysql.Connection {
   const con = mysql.createConnection({
     host: process.env.HEARTBEAT_DB_HOST || fallback.HEARTBEAT_DB_HOST,
-    port: process.env.HEARTBEAT_DB_PORT || fallback.HEARTBEAT_DB_PORT,
+    port: Number(process.env.HEARTBEAT_DB_PORT) || fallback.HEARTBEAT_DB_PORT,
     ssl: JSON.parse(process.env.HEARTBEAT_DB_SSL || fallback.HEARTBEAT_DB_SSL),
     user: process.env.HEARTBEAT_DB_USER || fallback.HEARTBEAT_DB_USER,
     password:

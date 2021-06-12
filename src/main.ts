@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import dotenv = require('dotenv');
+import * as dotenv from 'dotenv';
 import { fallback } from './fallback-values';
 
 async function bootstrap() {

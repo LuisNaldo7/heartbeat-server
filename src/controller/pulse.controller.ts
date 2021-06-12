@@ -10,17 +10,17 @@ export class PulseController {
   }
 
   @Get('beat/:guid')
-  async beat(@Param('guid') guid) {
+  async beat(@Param('guid') guid: string) {
     this.pulseService.beat(guid);
   }
 
   @Get('rise/:guid')
-  async rise(@Param('guid') guid) {
+  async rise(@Param('guid') guid: string) {
     this.pulseService.beat(guid);
   }
 
   @Get('die/:guid')
-  async die(@Param('guid') guid) {
+  async die(@Param('guid') guid: string) {
     this.pulseService.die(guid);
   }
 }

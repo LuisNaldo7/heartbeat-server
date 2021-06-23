@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Param } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { PulseServiceInterface } from 'src/application/pulse.service.interface';
 
 @Controller('pulse')
@@ -9,18 +9,18 @@ export class PulseController {
     this.pulseService = pulseService;
   }
 
-  @Get('beat/:guid')
-  async beat(@Param('guid') guid: string) {
+  @Post('beat')
+  async beat(@Body('guid') guid: string) {
     this.pulseService.beat(guid);
   }
 
-  @Get('rise/:guid')
-  async rise(@Param('guid') guid: string) {
-    this.pulseService.beat(guid);
+  @Post('rise')
+  async rise(@Body('guid') guid: string) {
+    this.pulseService.rise(guid);
   }
 
-  @Get('die/:guid')
-  async die(@Param('guid') guid: string) {
+  @Post('die')
+  async die(@Body('guid') guid: string) {
     this.pulseService.die(guid);
   }
 }

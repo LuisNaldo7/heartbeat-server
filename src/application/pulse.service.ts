@@ -64,8 +64,6 @@ export class PulseService implements PulseServiceInterface {
       return Promise.reject('PulseType ' + type + ' does not exist');
     }
 
-    console.log(type);
-
     return await updateDevice(guid, type);
   }
 }

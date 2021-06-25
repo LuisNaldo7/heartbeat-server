@@ -2,60 +2,70 @@ import { Injectable } from '@nestjs/common';
 import { PulseServiceInterface } from './pulse.service.interface';
 import * as mysql from 'mysql';
 import { getConnection } from '../sql';
+import { PulseType } from 'src/pulse-type';
 
 let con: mysql.Connection;
 
-function updateDevice(guid: string, type: string) {
+function updateDevice(guid: string, type: string): Promise<void> {
   const MAIL_SENT = false;
-  const tsUnix = new Date(Date.now()).getTime() / 1000;
+  const TS_UNIX = new Date(Date.now()).getTime() / 1000;
 
-  try {
-    if (
-      con == null ||
-      con.state == 'disconnected' ||
-      con.state == 'protocol_error'
-    ) {
-      con = getConnection();
-    }
-
-    const sql =
-      'UPDATE devices ' +
-      'SET ' +
-      "last_seen = '" +
-      tsUnix +
-      "', " +
-      "type = '" +
-      type +
-      "', " +
-      'mail_sent = ' +
-      MAIL_SENT +
-      ' ' +
-      'WHERE ' +
-      "guid = '" +
-      guid +
-      "';";
-
-    con.query(sql, (err, result) => {
-      if (err) {
-        console.error(err);
+  return new Promise((resolve, reject) => {
+    try {
+      if (
+        con == null ||
+        con.state == 'disconnected' ||
+        con.state == 'protocol_error'
+      ) {
+        con = getConnection();
       }
-    });
-  } catch (err) {
-    console.error(err);
-  }
+
+      const sql =
+        'UPDATE devices ' +
+        'SET ' +
+        "last_seen = '" +
+        TS_UNIX +
+        "', " +
+        "type = '" +
+        type +
+        "', " +
+        'mail_sent = ' +
+        MAIL_SENT +
+        ' ' +
+        'WHERE ' +
+        "guid = '" +
+        guid +
+        "';";
+
+      con.query(sql, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+
+        if (result.changedRows == 1) {
+          resolve();
+        } else if (result.changedRows == 0) {
+          reject('GUID ' + guid + ' not found');
+        } else {
+          reject('unknown error');
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
 }
 
 @Injectable()
 export class PulseService implements PulseServiceInterface {
-  beat(guid: string): void {
-    updateDevice(guid, 'BEAT');
-  }
+  async beat(guid: string, type: string): Promise<void> {
+    if (!(type in PulseType)) {
+      return Promise.reject('PulseType ' + type + ' does not exist');
+    }
 
-  rise(guid: string): void {
-    updateDevice(guid, 'BOOT');
-  }
+    console.log(type);
 
-  die(guid: string): void {
-    updateDevice(guid, 'SHUTDOWN');
+    return await updateDevice(guid, type);
   }
 }

@@ -11,37 +11,38 @@ function updateDevice(guid: string, type: string): Promise<void> {
   const TS_UNIX = new Date(Date.now()).getTime() / 1000;
 
   return new Promise((resolve, reject) => {
-    try {
-      if (
-        con == null ||
-        con.state == 'disconnected' ||
-        con.state == 'protocol_error'
-      ) {
-        con = getConnection();
+    if (
+      con == null ||
+      con.state == 'disconnected' ||
+      con.state == 'protocol_error'
+    ) {
+      con = getConnection();
+    }
+
+    const sql =
+      'UPDATE devices ' +
+      'SET ' +
+      "last_seen = '" +
+      TS_UNIX +
+      "', " +
+      "type = '" +
+      type +
+      "', " +
+      'mail_sent = ' +
+      MAIL_SENT +
+      ' ' +
+      'WHERE ' +
+      "guid = '" +
+      guid +
+      "';";
+
+    con.query(sql, (err, result) => {
+      if (err) {
+        console.error(err);
+        reject('internal database error');
       }
 
-      const sql =
-        'UPDATE devices ' +
-        'SET ' +
-        "last_seen = '" +
-        TS_UNIX +
-        "', " +
-        "type = '" +
-        type +
-        "', " +
-        'mail_sent = ' +
-        MAIL_SENT +
-        ' ' +
-        'WHERE ' +
-        "guid = '" +
-        guid +
-        "';";
-
-      con.query(sql, (err, result) => {
-        if (err) {
-          reject(err);
-        }
-
+      if (result) {
         if (result.changedRows == 1) {
           resolve();
         } else if (result.changedRows == 0) {
@@ -49,11 +50,8 @@ function updateDevice(guid: string, type: string): Promise<void> {
         } else {
           reject('unknown error');
         }
-      });
-    } catch (err) {
-      console.error(err);
-      reject(err);
-    }
+      }
+    });
   });
 }
 

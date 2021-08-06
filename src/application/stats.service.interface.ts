@@ -1,3 +1,5 @@
+import { DeviceEntity } from 'src/infrastructure/database/entities/device.entity';
+
 export interface StatsServiceInterface {
-  getDevices(): Promise<string>;
+  getAllDevices(): Promise<DeviceEntity[]>;
 }

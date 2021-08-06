@@ -1,5 +1,6 @@
 import { Controller, Get, HttpCode, Inject } from '@nestjs/common';
 import { StatsServiceInterface } from 'src/application/stats.service.interface';
+import { DeviceEntity } from 'src/infrastructure/database/entities/device.entity';
 
 @Controller('stats')
 export class StatsController {
@@ -11,14 +12,14 @@ export class StatsController {
 
   @Get('devices')
   @HttpCode(200)
-  async devices(): Promise<{ devices: string }> {
+  // TODO return DeviceDTO
+  async devices(): Promise<{ devices: DeviceEntity[] }> {
     try {
-      const devices = await this.statsService.getDevices();
+      const devices = await this.statsService.getAllDevices();
       return { devices };
     } catch (error) {
-      return {
-        devices: error.toString(),
-      };
+      console.log(error);
+      return { devices: error.toString() };
     }
   }
 }

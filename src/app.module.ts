@@ -1,13 +1,18 @@
 import { Module } from '@nestjs/common';
-import { PulseService } from './application/pulse.service';
-import { StatsService } from './application/stats.service';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PulseController } from './controller/pulse.controller';
-import { StatsController } from './controller/stats.controller';
+import { PulseModule } from './infrastructure/database/modules/pulse.module';
+import { StatsModule } from './infrastructure/database/modules/stats.module';
 
 @Module({
-  imports: [],
-  controllers: [PulseController, StatsController],
-  providers: [PulseService, StatsService],
+  imports: [
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(),
+    StatsModule,
+    PulseModule,
+  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

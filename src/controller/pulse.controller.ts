@@ -1,5 +1,6 @@
 import { Body, Controller, HttpCode, Inject, Post } from '@nestjs/common';
 import { PulseServiceInterface } from 'src/application/pulse.service.interface';
+import { PulseRequestDto } from './dtos/pulse-reqeust.dto';
 
 @Controller('pulse')
 export class PulseController {
@@ -9,14 +10,14 @@ export class PulseController {
     this.pulseService = pulseService;
   }
 
-  @Post('beat')
+  @Post()
   @HttpCode(200)
-  async beat(
-    @Body('guid') guid: string,
-    @Body('type') type: string,
-  ): Promise<any> {
+  async beat(@Body() pulseRequestDto: PulseRequestDto): Promise<any> {
     try {
-      await this.pulseService.beat(guid, type);
+      await this.pulseService.beat(
+        pulseRequestDto.deviceId,
+        pulseRequestDto.type,
+      );
       return { err: '', res: { status: 'ok' } };
     } catch (error) {
       console.error(error);

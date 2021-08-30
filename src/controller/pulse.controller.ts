@@ -1,7 +1,25 @@
-import { Body, Controller, HttpCode, Inject, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Inject,
+  InternalServerErrorException,
+  NotFoundException,
+  Post,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { PulseServiceInterface } from 'src/application/pulse.service.interface';
+import { EntityNotFoundError } from 'typeorm';
 import { PulseRequestDto } from './dtos/pulse-reqeust.dto';
 
+@ApiTags('Pulse')
 @Controller('pulse')
 export class PulseController {
   private pulseService: PulseServiceInterface;
@@ -12,16 +30,36 @@ export class PulseController {
 
   @Post()
   @HttpCode(200)
-  async beat(@Body() pulseRequestDto: PulseRequestDto): Promise<any> {
+  @ApiOperation({
+    summary: 'Updates the state of a device.',
+    description:
+      'Sets last_seen to the current timestamp, pulse_type to the received type and resets mail_sent to false.',
+  })
+  @ApiOkResponse({
+    description: 'State of device was successfully updated.',
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid value(s).',
+  })
+  @ApiNotFoundResponse({
+    description: 'Device not found.',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal server error.',
+  })
+  async beat(@Body() pulseRequestDto: PulseRequestDto): Promise<void> {
     try {
       await this.pulseService.beat(
         pulseRequestDto.deviceId,
         pulseRequestDto.type,
       );
-      return { err: '', res: { status: 'ok' } };
+      return;
     } catch (error) {
-      console.error(error);
-      return { err: error, res: { status: 'failed' } };
+      if (error instanceof EntityNotFoundError) {
+        throw new NotFoundException();
+      }
+
+      throw new InternalServerErrorException();
     }
   }
 }

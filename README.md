@@ -29,6 +29,9 @@ start app
 ```bash
 npm start
 ```
+
+An OpenAPI documentation is available at `http://localhost:3000/api`.
+
 ## Run in Docker
 
 pull image

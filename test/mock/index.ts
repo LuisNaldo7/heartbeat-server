@@ -1,2 +1,2 @@
 export * from './pulse.service.mock';
-export * from './stats.service.mock';
+export * from './device.service.mock';

@@ -29,7 +29,7 @@ export class PulseService implements PulseServiceInterface {
 
       return this.devicesRepository.save(entity);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw error;
     }
   }

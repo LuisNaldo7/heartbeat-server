@@ -3,13 +3,13 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { PulseModule } from './infrastructure/database/modules/pulse.module';
-import { StatsModule } from './infrastructure/database/modules/stats.module';
+import { DeviceModule } from './infrastructure/database/modules/device.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(),
-    StatsModule,
+    DeviceModule,
     PulseModule,
   ],
   controllers: [],

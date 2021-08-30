@@ -13,23 +13,24 @@ export class PulseService implements PulseServiceInterface {
   ) {}
 
   async beat(deviceId: string, type: string): Promise<DeviceEntity> {
-    if (!(type in PulseType)) {
-      return Promise.reject('PulseType ' + type + ' does not exist');
+    try {
+      const entity: DeviceEntity = await this.devicesRepository.findOneOrFail(
+        deviceId,
+      );
+
+      const pulse = new Pulse(
+        deviceId,
+        new Date(),
+        PulseType[type as keyof typeof PulseType],
+      );
+      entity.lastSeen = pulse.lastSeenUnix;
+      entity.type = pulse.type;
+      entity.mailSent = false;
+
+      return this.devicesRepository.save(entity);
+    } catch (error) {
+      console.log(error);
+      throw error;
     }
-
-    const entity: DeviceEntity = await this.devicesRepository.findOneOrFail(
-      deviceId,
-    );
-
-    const pulse = new Pulse(
-      deviceId,
-      new Date(),
-      PulseType[type as keyof typeof PulseType],
-    );
-    entity.lastSeen = pulse.lastSeenUnix;
-    entity.type = pulse.type;
-    entity.mailSent = false;
-
-    return this.devicesRepository.save(entity);
   }
 }

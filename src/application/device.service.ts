@@ -1,16 +1,21 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { StatsServiceInterface } from './stats.service.interface';
+import { DeviceServiceInterface } from './device.service.interface';
 import { DeviceEntity } from 'src/infrastructure/database/entities/device.entity';
 import { DevicesRepository } from 'src/infrastructure/database/repositories/devices.repository';
 
 @Injectable()
-export class StatsService implements StatsServiceInterface {
+export class DeviceService implements DeviceServiceInterface {
   constructor(
     @Inject('DevicesRepository')
     private readonly devicesRepository: DevicesRepository,
   ) {}
 
   async getAllDevices(): Promise<DeviceEntity[]> {
-    return this.devicesRepository.findAll();
+    try {
+      return this.devicesRepository.findAll();
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
 }

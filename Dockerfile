@@ -11,7 +11,7 @@ ENV TYPEORM_DATABASE=heartbeat
 ENV TYPEORM_SYNCHRONIZE=true
 ENV TYPEORM_LOGGING=false
 ENV TYPEORM_ENTITIES=dist/**/*.entity.js
-ENV TYPEORM_DRIVER_EXTRA='{ "ssl": false }'
+ENV TYPEORM_DRIVER_EXTRA='{ "ssl": { "rejectUnauthorized": false } }'
 
 # Create app directory
 WORKDIR /app

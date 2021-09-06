@@ -46,10 +46,10 @@ docker build -t luisnaldo7/heartbeat-server:latest .
 
 execute container
 ```bash 
-docker run -d -p 3000:3000 -e HEARTBEAT_DB_HOST="localhost" -e HEARTBEAT_DB_PASSWORD="pass" --rm --name heartbeat-server luisnaldo7/heartbeat-server:latest
+docker run -d -p 3000:3000 -e TYPEORM_HOST="localhost" -e TYPEORM_PASSWORD="pass" --rm --name heartbeat-server luisnaldo7/heartbeat-server:latest
 ```
 
 execute container on boot
 ```bash 
-docker run -d -p 3000:3000 -e HEARTBEAT_DB_HOST="localhost" -e HEARTBEAT_DB_PASSWORD="pass" --restart always --name heartbeat-server luisnaldo7/heartbeat-server:latest
+docker run -d -p 3000:3000 -e TYPEORM_HOST="localhost" -e TYPEORM_PASSWORD="pass" --restart always --name heartbeat-server luisnaldo7/heartbeat-server:latest
 ```

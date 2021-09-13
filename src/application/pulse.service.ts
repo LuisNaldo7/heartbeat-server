@@ -1,15 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { PulseServiceInterface } from './pulse.service.interface';
-import { PulseType } from 'src/domain/pulse-type';
-import { DevicesRepository } from 'src/infrastructure/database/repositories/devices.repository';
 import { DeviceEntity } from 'src/infrastructure/database/entities/device.entity';
-import { Pulse } from 'src/domain/pulse';
+import { Pulse, PulseType } from '../domain';
+import { DevicesRepositoryInterface, PulseServiceInterface } from '.';
 
 @Injectable()
 export class PulseService implements PulseServiceInterface {
   constructor(
     @Inject('DevicesRepository')
-    private readonly devicesRepository: DevicesRepository,
+    private readonly devicesRepository: DevicesRepositoryInterface,
   ) {}
 
   async beat(deviceId: string, type: string): Promise<DeviceEntity> {

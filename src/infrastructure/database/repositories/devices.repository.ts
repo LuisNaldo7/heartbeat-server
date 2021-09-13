@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { DevicesRepositoryInterface } from 'src/application';
 import { Repository } from 'typeorm';
 import { DeviceEntity } from '../entities/device.entity';
 
 @Injectable()
-export class DevicesRepository {
+export class DevicesRepository implements DevicesRepositoryInterface {
   constructor(
     @InjectRepository(DeviceEntity)
     private devicesRepository: Repository<DeviceEntity>,

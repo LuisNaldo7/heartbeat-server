@@ -4,6 +4,7 @@ import { DevicesRepository } from '../../../src/infrastructure/database/reposito
 import { mockDevicesRepository } from '../../mock/devices.repository.mock';
 import { DeviceEntity } from '../../../src/infrastructure/database/entities/device.entity';
 import { PulseType } from '../../../src/domain';
+import { EntityNotFoundError } from 'typeorm';
 
 describe('PulseService', () => {
   let pulseService: PulseService;
@@ -36,20 +37,29 @@ describe('PulseService', () => {
   });
 
   describe('beat', () => {
-    it('should update a device and return the DeviceEntity', async () => {
+    it('should update a device and return the expected DeviceEntity', async () => {
       const deviceId = 'ede88b30-1ba0-431a-9775-acfdf2ac0f57';
       const pulseType = PulseType.BEAT;
 
       devicesRepositoryMock.findOneOrFail.mockResolvedValueOnce(device);
       devicesRepositoryMock.save.mockResolvedValueOnce(device);
 
-      const result = await pulseService.beat(deviceId, pulseType);
+      const result = await pulseService.beat(deviceId, PulseType.BEAT);
       expect(result.guid).toBe(deviceId);
       expect(result.lastSeen).toBeGreaterThan(0);
       expect(result.type).toBe(pulseType);
       expect(result.mailSent).toBe(false);
     });
 
-    // TODO: Add negative tests
+    it('should fail to update a device due to unknown device id', async () => {
+      const deviceId = '12345678-1ba0-431a-9775-acfdf2ac0f57';
+
+      const err = new EntityNotFoundError(DeviceEntity, deviceId);
+      devicesRepositoryMock.findOneOrFail.mockRejectedValueOnce(err);
+
+      await expect(async () => {
+        await pulseService.beat(deviceId, PulseType.BEAT);
+      }).rejects.toThrow(EntityNotFoundError);
+    });
   });
 });

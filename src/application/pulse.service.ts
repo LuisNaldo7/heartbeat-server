@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DeviceEntity } from 'src/infrastructure/database/entities/device.entity';
+import { DeviceEntity } from '../infrastructure/database/entities/device.entity';
 import { Pulse, PulseType } from '../domain';
 import { DevicesRepositoryInterface, PulseServiceInterface } from '.';
 

@@ -8,7 +8,7 @@ import { EntityNotFoundError } from 'typeorm';
 
 describe('PulseService', () => {
   let pulseService: PulseService;
-  let devicesRepositoryMock: jest.Mocked<DevicesRepository>;
+  let deviceRepositoryMock: jest.Mocked<DevicesRepository>;
 
   const device: DeviceEntity = {
     guid: 'ede88b30-1ba0-431a-9775-acfdf2ac0f57',
@@ -19,7 +19,7 @@ describe('PulseService', () => {
   };
 
   beforeAll(() => {
-    devicesRepositoryMock = mockDevicesRepository();
+    deviceRepositoryMock = mockDevicesRepository();
   });
 
   beforeEach(async () => {
@@ -29,7 +29,7 @@ describe('PulseService', () => {
         PulseService,
         {
           provide: 'DevicesRepository',
-          useValue: devicesRepositoryMock,
+          useValue: deviceRepositoryMock,
         },
       ],
     }).compile();
@@ -41,8 +41,8 @@ describe('PulseService', () => {
       const deviceId = 'ede88b30-1ba0-431a-9775-acfdf2ac0f57';
       const pulseType = PulseType.BEAT;
 
-      devicesRepositoryMock.findOneOrFail.mockResolvedValueOnce(device);
-      devicesRepositoryMock.save.mockResolvedValueOnce(device);
+      deviceRepositoryMock.findOneOrFail.mockResolvedValueOnce(device);
+      deviceRepositoryMock.save.mockResolvedValueOnce(device);
 
       const result = await pulseService.beat(deviceId, PulseType.BEAT);
       expect(result.guid).toBe(deviceId);
@@ -55,7 +55,7 @@ describe('PulseService', () => {
       const deviceId = '12345678-1ba0-431a-9775-acfdf2ac0f57';
 
       const err = new EntityNotFoundError(DeviceEntity, deviceId);
-      devicesRepositoryMock.findOneOrFail.mockRejectedValueOnce(err);
+      deviceRepositoryMock.findOneOrFail.mockRejectedValueOnce(err);
 
       await expect(async () => {
         await pulseService.beat(deviceId, PulseType.BEAT);

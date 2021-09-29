@@ -1,4 +1,4 @@
-import { PulseType } from './pulse-type';
+import { PulseType } from '.';
 
 export class Pulse {
   public readonly deviceId: string;

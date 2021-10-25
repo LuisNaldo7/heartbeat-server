@@ -50,5 +50,14 @@ describe('DeviceService', () => {
       const result = await deviceService.getAllDevices();
       expect(result).toBe(devices);
     });
+
+    it('should fail to get all devices from database due to unknown error', async () => {
+      const err = new Error('unknown error');
+      deviceRepositoryMock.findAll.mockRejectedValueOnce(err);
+
+      await expect(async () => {
+        await deviceService.getAllDevices();
+      }).rejects.toThrow(Error);
+    });
   });
 });

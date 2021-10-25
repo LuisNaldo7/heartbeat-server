@@ -12,7 +12,7 @@ export class DeviceService implements DeviceServiceInterface {
 
   async getAllDevices(): Promise<DeviceEntity[]> {
     try {
-      return this.devicesRepository.findAll();
+      return await this.devicesRepository.findAll();
     } catch (error) {
       console.error(error);
       throw error;

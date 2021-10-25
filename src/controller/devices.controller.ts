@@ -41,7 +41,11 @@ export class DeviceController {
       const devices = await this.deviceService.getAllDevices();
 
       const mappedDevices = devices.map((entry) => {
-        return { description: entry.description, lastSeen: entry.lastSeen };
+        return {
+          description: entry.description,
+          maxTimeout: entry.maxTimeout,
+          lastSeen: entry.lastSeen,
+        };
       });
 
       return new DevicesResponseDto(mappedDevices);

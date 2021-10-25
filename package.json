@@ -24,7 +24,7 @@
   "dependencies": {
     "@nestjs/cli": "^7.6.0",
     "@nestjs/common": "^7.6.18",
-    "@nestjs/config": "^1.0.1",
+    "@nestjs/config": "^1.0.2",
     "@nestjs/core": "^7.6.18",
     "@nestjs/platform-express": "^7.6.18",
     "@nestjs/swagger": "^4.8.2",
@@ -35,7 +35,7 @@
     "mysql2": "^2.3.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^7.3.0",
+    "rxjs": "^7.4.0",
     "swagger-ui-express": "^4.1.6",
     "typeorm": "^0.2.37"
   },

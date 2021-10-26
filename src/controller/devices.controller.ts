@@ -50,6 +50,7 @@ export class DeviceController {
 
       return new DevicesResponseDto(mappedDevices);
     } catch (error) {
+      console.error(error);
       throw new InternalServerErrorException();
     }
   }

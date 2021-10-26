@@ -55,6 +55,7 @@ export class PulseController {
       );
       return;
     } catch (error) {
+      console.error(error);
       if (error instanceof EntityNotFoundError) {
         throw new NotFoundException();
       }

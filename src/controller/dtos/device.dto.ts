@@ -21,9 +21,31 @@ export class DeviceDto {
   })
   lastSeen?: number;
 
-  constructor(description: string, lastSeen: number, maxTimeout: number) {
+  @ApiProperty({
+    description: 'Alert sent via mail.',
+    example: 'false',
+    nullable: false,
+  })
+  alertSentMail?: boolean;
+
+  @ApiProperty({
+    description: 'Alert sent on discord.',
+    example: 'false',
+    nullable: false,
+  })
+  alertSentDiscord?: boolean;
+
+  constructor(
+    description: string,
+    lastSeen: number,
+    maxTimeout: number,
+    alertSentMail: boolean,
+    alertSentDiscord: boolean,
+  ) {
     this.description = description;
     this.maxTimeout = maxTimeout;
     this.lastSeen = lastSeen;
+    this.alertSentMail = alertSentMail;
+    this.alertSentDiscord = alertSentDiscord;
   }
 }

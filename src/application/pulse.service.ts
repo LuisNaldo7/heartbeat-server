@@ -23,7 +23,8 @@ export class PulseService implements PulseServiceInterface {
       );
       entity.lastSeen = pulse.lastSeenUnix;
       entity.type = pulse.type;
-      entity.mailSent = false;
+      entity.alertSentMail = false;
+      entity.alertSentDiscord = false;
 
       return this.devicesRepository.save(entity);
     } catch (error) {

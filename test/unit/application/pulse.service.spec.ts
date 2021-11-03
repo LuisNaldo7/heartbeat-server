@@ -14,7 +14,8 @@ describe('PulseService', () => {
     guid: 'ede88b30-1ba0-431a-9775-acfdf2ac0f57',
     description: 'client-1',
     maxTimeout: 15,
-    mailSent: false,
+    alertSentMail: false,
+    alertSentDiscord: false,
     enabled: true,
   };
 
@@ -48,7 +49,8 @@ describe('PulseService', () => {
       expect(result.guid).toBe(deviceId);
       expect(result.lastSeen).toBeGreaterThan(0);
       expect(result.type).toBe(pulseType);
-      expect(result.mailSent).toBe(false);
+      expect(result.alertSentDiscord).toBe(false);
+      expect(result.alertSentDiscord).toBe(false);
     });
 
     it('should fail to update a device due to unknown device id', async () => {

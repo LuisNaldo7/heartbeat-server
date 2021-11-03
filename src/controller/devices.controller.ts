@@ -45,6 +45,8 @@ export class DeviceController {
           description: entry.description,
           maxTimeout: entry.maxTimeout,
           lastSeen: entry.lastSeen,
+          alertSentMail: entry.alertSentMail,
+          alertSentDiscord: entry.alertSentDiscord,
         };
       });
 

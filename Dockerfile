@@ -19,7 +19,7 @@ RUN npm run build
 # Run stage
 FROM node:16.13.1
 
-# Switch to less privileged user
+## Switch to less privileged user
 USER node
 
 ## Declare env vars

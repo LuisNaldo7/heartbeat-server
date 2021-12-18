@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DeviceController } from '../../../src/controller/devices.controller';
+import { DeviceController } from '../../../src/controller/device.controller';
 import { DeviceService } from 'src/application/device.service';
 import { mockDeviceService } from '../../mock';
 

@@ -1,18 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DeviceEntity } from '../infrastructure/database/entities/device.entity';
 import { Pulse, PulseType } from '../domain';
-import { DevicesRepositoryInterface, PulseServiceInterface } from '.';
+import { DeviceRepositoryInterface, PulseServiceInterface } from '.';
 
 @Injectable()
 export class PulseService implements PulseServiceInterface {
   constructor(
-    @Inject('DevicesRepository')
-    private readonly devicesRepository: DevicesRepositoryInterface,
+    @Inject('DeviceRepository')
+    private readonly deviceRepository: DeviceRepositoryInterface,
   ) {}
 
   async beat(deviceId: string, type: string): Promise<DeviceEntity> {
     try {
-      const entity: DeviceEntity = await this.devicesRepository.findOneOrFail(
+      const entity: DeviceEntity = await this.deviceRepository.findOneOrFail(
         deviceId,
       );
 
@@ -26,7 +26,7 @@ export class PulseService implements PulseServiceInterface {
       entity.alertSentMail = false;
       entity.alertSentDiscord = false;
 
-      return this.devicesRepository.save(entity);
+      return this.deviceRepository.save(entity);
     } catch (error) {
       console.error(error);
       throw error;

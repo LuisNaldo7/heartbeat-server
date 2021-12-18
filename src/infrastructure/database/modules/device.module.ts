@@ -1,13 +1,22 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DeviceService } from '../../../application/device.service';
-import { DeviceController } from '../../../controller/devices.controller';
+import { DeviceController } from '../../../controller/device.controller';
 import { DeviceEntity } from '../entities/device.entity';
-import { DevicesRepository } from '../repositories/devices.repository';
+import { DeviceRepository } from '../repositories/devices.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([DeviceEntity])],
-  providers: [DeviceService, DevicesRepository],
+  providers: [
+    {
+      provide: 'DeviceRepository',
+      useClass: DeviceRepository,
+    },
+    {
+      provide: 'DeviceService',
+      useClass: DeviceService,
+    },
+  ],
   controllers: [DeviceController],
 })
 export class DeviceModule {}

@@ -14,7 +14,7 @@ import {
 import { DeviceServiceInterface } from 'src/application/device.service.interface';
 import { DevicesResponseDto } from './dtos/devices-response.dto';
 
-@ApiTags('Devices')
+@ApiTags('Device')
 @Controller('devices')
 export class DeviceController {
   private deviceService: DeviceServiceInterface;

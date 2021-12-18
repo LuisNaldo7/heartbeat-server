@@ -1,12 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeviceService } from '../../../src/application';
-import { DevicesRepository } from '../../../src/infrastructure/database/repositories/devices.repository';
-import { mockDevicesRepository } from '../../mock/devices.repository.mock';
+import { DeviceRepository } from '../../../src/infrastructure/database/repositories/devices.repository';
+import { mockDeviceRepository } from '../../mock/devices.repository.mock';
 import { DeviceEntity } from '../../../src/infrastructure/database/entities/device.entity';
 
 describe('DeviceService', () => {
   let deviceService: DeviceService;
-  let deviceRepositoryMock: jest.Mocked<DevicesRepository>;
+  let deviceRepositoryMock: jest.Mocked<DeviceRepository>;
 
   const devices: DeviceEntity[] = [
     {
@@ -28,7 +28,7 @@ describe('DeviceService', () => {
   ];
 
   beforeAll(() => {
-    deviceRepositoryMock = mockDevicesRepository();
+    deviceRepositoryMock = mockDeviceRepository();
   });
 
   beforeEach(async () => {
@@ -37,7 +37,7 @@ describe('DeviceService', () => {
       providers: [
         DeviceService,
         {
-          provide: 'DevicesRepository',
+          provide: 'DeviceRepository',
           useValue: deviceRepositoryMock,
         },
       ],

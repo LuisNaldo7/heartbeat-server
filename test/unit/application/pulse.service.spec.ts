@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PulseService } from '../../../src/application';
-import { DevicesRepository } from '../../../src/infrastructure/database/repositories/devices.repository';
-import { mockDevicesRepository } from '../../mock/devices.repository.mock';
+import { DeviceRepository } from '../../../src/infrastructure/database/repositories/devices.repository';
+import { mockDeviceRepository } from '../../mock/devices.repository.mock';
 import { DeviceEntity } from '../../../src/infrastructure/database/entities/device.entity';
 import { PulseType } from '../../../src/domain';
 import { EntityNotFoundError } from 'typeorm';
 
 describe('PulseService', () => {
   let pulseService: PulseService;
-  let deviceRepositoryMock: jest.Mocked<DevicesRepository>;
+  let deviceRepositoryMock: jest.Mocked<DeviceRepository>;
 
   const device: DeviceEntity = {
     guid: 'ede88b30-1ba0-431a-9775-acfdf2ac0f57',
@@ -20,7 +20,7 @@ describe('PulseService', () => {
   };
 
   beforeAll(() => {
-    deviceRepositoryMock = mockDevicesRepository();
+    deviceRepositoryMock = mockDeviceRepository();
   });
 
   beforeEach(async () => {
@@ -29,7 +29,7 @@ describe('PulseService', () => {
       providers: [
         PulseService,
         {
-          provide: 'DevicesRepository',
+          provide: 'DeviceRepository',
           useValue: deviceRepositoryMock,
         },
       ],

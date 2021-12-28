@@ -5,16 +5,16 @@ export class DeviceEntity {
   @PrimaryGeneratedColumn('uuid', {
     name: 'guid',
   })
-  guid?: string;
+  guid: string;
   @Column({
     name: 'description',
   })
-  description?: string;
+  description: string;
   @Column({
     name: 'max_timeout',
     default: 60,
   })
-  maxTimeout?: number;
+  maxTimeout: number;
   @Column({
     name: 'last_seen',
     default: null,
@@ -29,15 +29,29 @@ export class DeviceEntity {
     name: 'alert_sent_mail',
     default: false,
   })
-  alertSentMail?: boolean;
+  alertSentMail: boolean;
   @Column({
     name: 'alert_sent_discord',
     default: false,
   })
-  alertSentDiscord?: boolean;
+  alertSentDiscord: boolean;
   @Column({
     name: 'enabled',
     default: false,
   })
   enabled?: boolean;
+
+  constructor(
+    guid: string,
+    description: string,
+    maxTimeout: number,
+    alertSentMail: boolean,
+    alertSentDiscord: boolean,
+  ) {
+    this.guid = guid;
+    this.description = description;
+    this.maxTimeout = maxTimeout;
+    this.alertSentMail = alertSentMail;
+    this.alertSentDiscord = alertSentDiscord;
+  }
 }

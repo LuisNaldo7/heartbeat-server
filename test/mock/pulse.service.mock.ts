@@ -1,4 +1,4 @@
-import { PulseService } from '../../src/application/pulse.service';
+import { PulseService } from '../../src/application';
 
 export function mockPulseService(): jest.Mocked<PulseService> {
   return {

@@ -1,5 +1,5 @@
-import { DeviceEntity } from 'src/infrastructure/database/entities/device.entity';
+import { Device } from 'src/domain';
 
 export interface DeviceServiceInterface {
-  getAllDevices(): Promise<DeviceEntity[]>;
+  getAllDevices(): Promise<Device[]>;
 }

@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DeviceServiceInterface } from './device.service.interface';
-import { DeviceEntity } from 'src/infrastructure/database/entities/device.entity';
-import { DeviceRepositoryInterface } from './devices.repository.interface';
+import { Device } from '../domain';
+import { DeviceServiceInterface, DeviceRepositoryInterface } from '.';
 
 @Injectable()
 export class DeviceService implements DeviceServiceInterface {
@@ -10,9 +9,23 @@ export class DeviceService implements DeviceServiceInterface {
     private readonly deviceRepository: DeviceRepositoryInterface,
   ) {}
 
-  async getAllDevices(): Promise<DeviceEntity[]> {
+  async getAllDevices(): Promise<Device[]> {
     try {
-      return await this.deviceRepository.findAll();
+      const deviceEntities = await this.deviceRepository.findAll();
+
+      let devices: Device[] = [];
+      deviceEntities.forEach((entry) => {
+        const device = new Device(
+          entry.description,
+          entry.maxTimeout,
+          entry.alertSentMail,
+          entry.alertSentDiscord,
+        );
+        device.lastSeen = entry.lastSeen;
+        devices.push(device);
+      });
+
+      return devices;
     } catch (error) {
       console.error(error);
       throw error;

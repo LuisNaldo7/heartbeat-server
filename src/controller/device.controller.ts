@@ -43,8 +43,9 @@ export class DeviceController {
       const mappedDevices = devices.map((entry) => {
         return {
           description: entry.description,
-          maxTimeout: entry.maxTimeout,
           lastSeen: entry.lastSeen,
+          maxTimeout: entry.maxTimeout,
+          maxTimeoutExceeded: entry.maxTimeoutExceeded(),
           alertSentMail: entry.alertSentMail,
           alertSentDiscord: entry.alertSentDiscord,
         };

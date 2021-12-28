@@ -8,6 +8,13 @@ export class DeviceDto {
   description?: string;
 
   @ApiProperty({
+    description: 'The unix time the device was last seen.',
+    example: '1630357725',
+    nullable: true,
+  })
+  lastSeen?: number;
+
+  @ApiProperty({
     description: 'The maximum allowed time in seconds without any message.',
     example: '60',
     nullable: false,
@@ -15,11 +22,11 @@ export class DeviceDto {
   maxTimeout?: number;
 
   @ApiProperty({
-    description: 'The unix time the device was last seen.',
-    example: '1630357725',
-    nullable: true,
+    description: 'Device exceeded maximum timeout.',
+    example: 'false',
+    nullable: false,
   })
-  lastSeen?: number;
+  maxTimeoutExceeded?: boolean;
 
   @ApiProperty({
     description: 'Alert sent via mail.',
@@ -39,12 +46,14 @@ export class DeviceDto {
     description: string,
     lastSeen: number,
     maxTimeout: number,
+    maxTimeoutExceeded: boolean,
     alertSentMail: boolean,
     alertSentDiscord: boolean,
   ) {
     this.description = description;
-    this.maxTimeout = maxTimeout;
     this.lastSeen = lastSeen;
+    this.maxTimeout = maxTimeout;
+    this.maxTimeoutExceeded = maxTimeoutExceeded;
     this.alertSentMail = alertSentMail;
     this.alertSentDiscord = alertSentDiscord;
   }

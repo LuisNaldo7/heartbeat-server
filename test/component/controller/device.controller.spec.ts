@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { DeviceEntity } from '../../../src/infrastructure/database/entities/device.entity';
 import { deviceMock } from '../../mock/device.mock';
-import { DeviceModule } from '../../../src/infrastructure/database/modules/device.module';
+import { DeviceModule } from '../../../src/modules/device.module';
 
 describe('DeviceController', () => {
   let app: INestApplication;

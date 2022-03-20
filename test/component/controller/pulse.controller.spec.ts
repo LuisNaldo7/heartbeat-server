@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { DeviceEntity } from '../../../src/infrastructure/database/entities/device.entity';
 import { deviceMock } from '../../mock/device.mock';
-import { PulseModule } from '../../../src/infrastructure/database/modules/pulse.module';
+import { PulseModule } from '../../../src/modules/pulse.module';
 import { PulseType } from '../../../src/domain';
 import { EntityNotFoundError } from 'typeorm';
 

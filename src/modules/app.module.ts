@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PulseModule } from './infrastructure/database/modules/pulse.module';
-import { DeviceModule } from './infrastructure/database/modules/device.module';
+import { PulseModule } from './pulse.module';
+import { DeviceModule } from './device.module';
 
 @Module({
   imports: [

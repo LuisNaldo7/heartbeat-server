@@ -13,7 +13,7 @@ export class DeviceService implements DeviceServiceInterface {
     try {
       const deviceEntities = await this.deviceRepository.findAll();
 
-      let devices: Device[] = [];
+      const devices: Device[] = [];
       deviceEntities.forEach((entry) => {
         const device = new Device(
           entry.description,

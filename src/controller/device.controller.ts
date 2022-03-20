@@ -36,7 +36,7 @@ export class DeviceController {
   @ApiInternalServerErrorResponse({
     description: 'Internal server error.',
   })
-  async devices(): Promise<DevicesResponseDto> {
+  async getDevices(): Promise<DevicesResponseDto> {
     try {
       const devices = await this.deviceService.getAllDevices();
 
